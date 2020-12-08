@@ -7,9 +7,13 @@
 
 import UIKit
 
+protocol AdicionaRefeicaoDelegate {
+    func add (_ refeicao: Refeicao)
+}
+
 class ViewController: UIViewController {
     
-    var tableViewController: RefeicoesTableViewController?
+    var delegate: AdicionaRefeicaoDelegate?
     
     @IBOutlet var nomeTextField: UITextField?
     @IBOutlet weak var felicidadeTextField: UITextField?
@@ -17,7 +21,7 @@ class ViewController: UIViewController {
     // Método
     @IBAction func adicionar(_ sender: UIButton) {
         
-        guard let nomeDaRefeicao = nomeTextField?.text else {
+        guard let nomeDaRefeicao = nomeTextField?.text else { 
             return
         }
 
@@ -30,7 +34,7 @@ class ViewController: UIViewController {
 
         print("Comi \(refeicao.nome) e fiquei com felicidade: \(refeicao.felicidade)")
         
-        tableViewController?.add(refeicao)
+        delegate?.add(refeicao)
 
         // Desparece com a tela que ficou sob a outra
         navigationController?.popViewController(animated: true)
