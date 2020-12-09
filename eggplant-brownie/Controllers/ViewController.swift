@@ -16,7 +16,13 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - Atributos
     
     var delegate: AdicionaRefeicaoDelegate?
-    var itens: [String] = ["Queijo", "Maionese Verde", "Bacon", "Alface", "Tomate", "Hamburguer"]
+//    var itens: [String] = ["Queijo", "Maionese Verde", "Bacon", "Alface", "Tomate", "Hamburguer"]
+    var itens: [Item] = [Item(nome: "Queijo", calorias: 72.0),
+                         Item(nome: "Maionese Verde", calorias: 72.0),
+                         Item(nome: "Bacon", calorias: 72.0),
+                         Item(nome: "Alface", calorias: 72.0),
+                         Item(nome: "Tomate", calorias: 72.0),
+                         Item(nome: "Hamburguer", calorias: 72.0)]
     
     // MARK: - IBOutlets
     
@@ -33,7 +39,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
         let linhaDaTabela = indexPath.row
         let item = itens[linhaDaTabela]
-        celula.textLabel?.text = item
+        celula.textLabel?.text = item.nome
         
         return celula
     }
