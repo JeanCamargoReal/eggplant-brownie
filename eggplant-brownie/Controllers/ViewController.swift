@@ -24,6 +24,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                          Item(nome: "Tomate", calorias: 72.0),
                          Item(nome: "Hamburguer", calorias: 72.0)]
     
+    var itensSelecionados: [Item] = []
+    
     // MARK: - IBOutlets
     
     @IBOutlet var nomeTextField: UITextField?
@@ -51,13 +53,17 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         
         if celula.accessoryType == .none {
             celula.accessoryType = .checkmark
+            let linhaDaTabela = indexPath.row
+            itensSelecionados.append(itens[linhaDaTabela])
         } else {
             celula.accessoryType = .none
+            
+            let item = itens[indexPath.row]
+            if let position = itensSelecionados.firstIndex(of: item) {
+                itensSelecionados.remove(at: position)
+            }
         }
-        
-        
     }
-    
     
     // MARK: - ABActions
     
@@ -72,8 +78,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             return
         }
 
-        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade)
-
+        let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
+        
+        refeicao.itens = itensSelecionados
+        
         print("Comi \(refeicao.nome) e fiquei com felicidade: \(refeicao.felicidade)")
         
         delegate?.add(refeicao)
