@@ -2,12 +2,13 @@
 //  AdicionarItensViewController.swift
 //  eggplant-brownie
 //
-//  Created by Jean Camargo on 10/12/20.
+//  Created by Alura on 03/06/19.
+//  Copyright © 2019 Alura. All rights reserved.
 //
 
 import UIKit
 
-protocol AdicionarItensDelegate {
+protocol AdicionaItensDelegate {
     func add(_ item: Item)
 }
 
@@ -20,9 +21,9 @@ class AdicionarItensViewController: UIViewController {
     
     // MARK: - Atributos
     
-    var delegate: AdicionarItensDelegate?
+    var delegate: AdicionaItensDelegate?
     
-    init(delegate: AdicionarItensDelegate) {
+    init(delegate: AdicionaItensDelegate) {
         super.init(nibName: "AdicionarItensViewController", bundle: nil)
         self.delegate = delegate
     }
@@ -35,21 +36,19 @@ class AdicionarItensViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
-    // MARK: -  IBAction
+    // MARK: - IBAction
     
     @IBAction func adicionarItem(_ sender: Any) {
         guard let nome = nomeTextField.text, let calorias = caloriasTextField.text else {
             return
         }
         
-        if let numeroDeCalorias = Double(calorias){
+        if let numeroDeCalorias = Double(calorias) {
             let item = Item(nome: nome, calorias: numeroDeCalorias)
             delegate?.add(item)
             navigationController?.popViewController(animated: true)
         }
     }
-    
 }

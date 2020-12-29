@@ -2,44 +2,44 @@
 //  ViewController.swift
 //  eggplant-brownie
 //
-//  Created by Jean Camargo on 27/11/20.
+//  Created by Alura on 23/02/19.
+//  Copyright © 2019 Alura. All rights reserved.
 //
 
 import UIKit
 
 protocol AdicionaRefeicaoDelegate {
-    func add (_ refeicao: Refeicao)
+    func add(_ refeicao: Refeicao)
 }
 
-class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AdicionarItensDelegate {
+class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, AdicionaItensDelegate {
+    
+    // MARK: - IBOutlet
+    
+    @IBOutlet weak var itensTableView: UITableView!
     
     // MARK: - Atributos
     
     var delegate: AdicionaRefeicaoDelegate?
-//    var itens: [String] = ["Queijo", "Maionese Verde", "Bacon", "Alface", "Tomate", "Hamburguer"]
-    var itens: [Item] = [Item(nome: "Queijo", calorias: 72.0),
-                         Item(nome: "Maionese Verde", calorias: 72.0),
-                         Item(nome: "Bacon", calorias: 72.0),
-                         Item(nome: "Alface", calorias: 72.0),
-                         Item(nome: "Tomate", calorias: 72.0),
-                         Item(nome: "Hamburguer", calorias: 72.0)]
-    
+    var itens: [Item] = [Item(nome: "Molho de tomate", calorias: 40.0),
+                         Item(nome: "Queijo", calorias: 40.0),
+                         Item(nome: "Molho apimentado", calorias: 40.0),
+                         Item(nome: "Manjericao", calorias: 40.0)]
     var itensSelecionados: [Item] = []
     
     // MARK: - IBOutlets
     
     @IBOutlet var nomeTextField: UITextField?
     @IBOutlet weak var felicidadeTextField: UITextField?
-    @IBOutlet weak var itensTableView: UITableView!
     
     // MARK: - View life cycle
     
     override func viewDidLoad() {
-        let botaoAdicionaItem = UIBarButtonItem(title: "adicionar", style: .plain, target: self, action: #selector(adicionarItem))
+        let botaoAdicionaItem = UIBarButtonItem(title: "adicionar", style: .plain, target: self, action: #selector(adicionarItens))
         navigationItem.rightBarButtonItem = botaoAdicionaItem
     }
     
-    @objc func adicionarItem() {
+    @objc func adicionarItens() {
         let adicionarItensViewController = AdicionarItensViewController(delegate: self)
         navigationController?.pushViewController(adicionarItensViewController, animated: true)
     }
@@ -57,8 +57,10 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let celula = UITableViewCell(style: .default, reuseIdentifier: nil)
+        
         let linhaDaTabela = indexPath.row
         let item = itens[linhaDaTabela]
+        
         celula.textLabel?.text = item.nome
         
         return celula
@@ -68,7 +70,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let celula = tableView.cellForRow(at: indexPath) else { return }
-        
         if celula.accessoryType == .none {
             celula.accessoryType = .checkmark
             let linhaDaTabela = indexPath.row
@@ -77,36 +78,30 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             celula.accessoryType = .none
             
             let item = itens[indexPath.row]
-            if let position = itensSelecionados.firstIndex(of: item) {
-                itensSelecionados.remove(at: position)
+            if let position = itensSelecionados.index(of: item) {
+                itensSelecionados.remove(at: position)                
             }
         }
     }
     
-    // MARK: - ABActions
+    // MARK: - IBActions
     
-    @IBAction func adicionar(_ sender: UIButton) {
+    @IBAction func adicionar(_ sender: Any) {
         
-        guard let nomeDaRefeicao = nomeTextField?.text else { 
+        guard let nomeDaRefeicao = nomeTextField?.text else {
             return
         }
-
-        guard let felicidadeDaRefeicao = felicidadeTextField?.text,
-              let felicidade = Int(felicidadeDaRefeicao) else {
+        
+        guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
             return
         }
-
+        
         let refeicao = Refeicao(nome: nomeDaRefeicao, felicidade: felicidade, itens: itensSelecionados)
         
-        refeicao.itens = itensSelecionados
-        
-        print("Comi \(refeicao.nome) e fiquei com felicidade: \(refeicao.felicidade)")
+        print("comi \(refeicao.nome) e fiquei com felicidade: \(refeicao.felicidade)")
         
         delegate?.add(refeicao)
-
-        // Desparece com a tela que ficou sob a outra
         navigationController?.popViewController(animated: true)
     }
 }
-
 
