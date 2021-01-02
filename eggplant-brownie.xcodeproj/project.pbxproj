@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C506661B25A114D60068AFF7 /* Alerta.swift in Sources */ = {isa = PBXBuildFile; fileRef = C506661A25A114D60068AFF7 /* Alerta.swift */; };
 		C51307EB257125150078BF88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51307EA257125150078BF88 /* AppDelegate.swift */; };
 		C51307ED257125150078BF88 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51307EC257125150078BF88 /* SceneDelegate.swift */; };
 		C51307EF257125150078BF88 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51307EE257125150078BF88 /* ViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C506661A25A114D60068AFF7 /* Alerta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerta.swift; sourceTree = "<group>"; };
 		C51307E7257125150078BF88 /* eggplant-brownie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eggplant-brownie.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C51307EA257125150078BF88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C51307EC257125150078BF88 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				C5EF11242576EF900040ACFD /* Refeicao.swift */,
 				C5EF11272576EFE90040ACFD /* Item.swift */,
+				C506661A25A114D60068AFF7 /* Alerta.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C506661B25A114D60068AFF7 /* Alerta.swift in Sources */,
 				C5EF11282576EFE90040ACFD /* Item.swift in Sources */,
 				C51307EF257125150078BF88 /* ViewController.swift in Sources */,
 				C5D9E2832582A1CD00D8E85D /* AdicionarItensViewController.swift in Sources */,
