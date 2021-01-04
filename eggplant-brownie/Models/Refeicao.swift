@@ -25,14 +25,16 @@ class Refeicao: NSObject, NSCoding {
     
     // MARK: - NSCoding
     
-    func encode(with coder: NSCoder) {
-        coder.encode(nome, forKey: "nome")
-        coder.encode(felicidade, forKey: "felicidade")
-        coder.encode(itens, forKey: "itens")
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(nome, forKey: "nome")
+        aCoder.encode(felicidade, forKey: "felicidade")
+        aCoder.encode(itens, forKey: "itens")
     }
     
-    required init?(coder: NSCoder) {
-        <#code#>
+    required init?(coder aDecoder: NSCoder) {
+        nome = aDecoder.decodeObject(forKey: "nome") as! String
+        felicidade = aDecoder.decodeInteger(forKey: "felicidade")
+        itens = aDecoder.decodeObject(forKey: "itens") as! Array<Item>
     }
     
     // MARK: - Metodos
