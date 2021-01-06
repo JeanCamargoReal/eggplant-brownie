@@ -9,6 +9,7 @@
 import UIKit
 
 class Item: NSObject, NSCoding {
+    
     // MARK: - Atributos
     
     let nome: String
@@ -30,6 +31,6 @@ class Item: NSObject, NSCoding {
     
     required init?(coder aDecoder: NSCoder) {
         nome = aDecoder.decodeObject(forKey: "nome") as! String
-        calorias = aDecoder.decodeDouble(forKey: "c alorias")
+        calorias = aDecoder.decodeDouble(forKey: "calorias")
     }
 }

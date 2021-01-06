@@ -9,6 +9,7 @@
 import UIKit
 
 class Refeicao: NSObject, NSCoding {
+    
     // MARK: - Atributos
     
     let nome: String

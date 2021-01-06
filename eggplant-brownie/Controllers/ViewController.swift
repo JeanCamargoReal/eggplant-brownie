@@ -37,6 +37,14 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func viewDidLoad() {
         let botaoAdicionaItem = UIBarButtonItem(title: "adicionar", style: .plain, target: self, action: #selector(adicionarItens))
         navigationItem.rightBarButtonItem = botaoAdicionaItem
+        do {
+            guard let diretorio = recuperaDiretorio() else { return }
+            let dados = try Data(contentsOf: diretorio)
+            let itensSalvos = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(dados) as! [Item]
+            itens = itensSalvos
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     @objc func adicionarItens() {
@@ -49,8 +57,23 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         if let tableView = itensTableView {
             tableView.reloadData()
         } else {
-            Alerta(controller: self).exibe(titulo: "Desculpe", mensagem: "Não foi possível atualizar a tabela")
+            Alerta(controller: self).exibe(mensagem: "Erro ao atualizar tabela")
         }
+        
+        do {
+            let dados = try NSKeyedArchiver.archivedData(withRootObject: itens, requiringSecureCoding: false)
+            guard let caminho = recuperaDiretorio() else { return }
+            try dados.write(to: caminho)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func recuperaDiretorio() -> URL? {
+        guard let diretorio = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return nil }
+        let caminho = diretorio.appendingPathComponent("itens")
+        
+        return caminho
     }
     
     // MARK: - UITableViewDataSource
@@ -82,7 +105,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             celula.accessoryType = .none
             
             let item = itens[indexPath.row]
-            if let position = itensSelecionados.firstIndex(of: item) {
+            if let position = itensSelecionados.index(of: item) {
                 itensSelecionados.remove(at: position)                
             }
         }
@@ -92,6 +115,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         guard let nomeDaRefeicao = nomeTextField?.text else {
             return nil
         }
+        
         guard let felicidadeDaRefeicao = felicidadeTextField?.text, let felicidade = Int(felicidadeDaRefeicao) else {
             return nil
         }
@@ -104,13 +128,12 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     // MARK: - IBActions
     
     @IBAction func adicionar(_ sender: Any) {
-        
-        guard let refeicao = recuperaRefeicaoDoFormulario() else {
-           return Alerta(controller: self).exibe(mensagem: "Erro ao ler dados do formulário")
+        if let refeicao = recuperaRefeicaoDoFormulario() {
+            delegate?.add(refeicao)
+            navigationController?.popViewController(animated: true)
+        } else {
+            Alerta(controller: self).exibe(mensagem: "Erro ao ler dados do formulário")
         }
-        
-        delegate?.add(refeicao)
-        navigationController?.popViewController(animated: true)
     }
 }
 
